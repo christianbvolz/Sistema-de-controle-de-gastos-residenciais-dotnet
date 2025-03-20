@@ -1,0 +1,41 @@
+.user-list {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.user-list h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-list th,
+.user-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.user-list th {
+  background-color: #f0f0f0;
+}
+
+.user-list tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+
+.delete-btn {
+  margin: 0;
+  width: 50px;
+}
+
+img {
+  width: 50%;
+  margin: 0;
+}
