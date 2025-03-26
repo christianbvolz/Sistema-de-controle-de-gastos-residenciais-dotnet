@@ -3,10 +3,10 @@ namespace backend.Repository
   using Microsoft.EntityFrameworkCore;
   using backend.Models;
 
-  public class DataBaseContext : DbContext
+  public class DataBaseContext : DbContext, IDataBaseContext
   {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Transaction> Transactions { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -22,14 +22,12 @@ namespace backend.Repository
         optionsBuilder.UseSqlServer(connectionString);
       }
     }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Definição da relação com User
-        modelBuilder.Entity<Transaction>()
-            .HasOne(b => b.User)
-            .WithMany(a => a.Transactions)
-            .HasForeignKey(b => b.UserId);
-
-    }
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //   modelBuilder.Entity<Transaction>()
+    //       .HasOne(b => b.User)
+    //       .WithMany(a => a.Transactions)
+    //       .HasForeignKey(b => b.UserId);
+    // }
   }
 }

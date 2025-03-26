@@ -6,22 +6,40 @@ using backend.Repository;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(UserRepository repository) : ControllerBase
+public class UserController(IUserRepository repository) : ControllerBase
 {
 
-    private readonly UserRepository _repository = repository;
+    private readonly IUserRepository _repository = repository;
 
     [HttpPost]
-    public IActionResult AddUser()
+    public IActionResult AddUser([FromBody] User user)
     {
-        var user = new User
-        {
-            Name = "John Doe",
-            Age = 30
-        };
+        return Created("user added", _repository.AddUser(user));
+    }
 
-        _repository.Add(user);
+    [HttpGet("{UserId}")]
+    public IActionResult GetUser(int userId)
+    {
+        var user = _repository.GetUser(userId);
 
-        return Ok(new { message = "user added" });
+        if (user == null) return NotFound();
+
+        return Ok(user);
+    }
+
+    [HttpGet]
+    public IActionResult GetAllUser()
+    {
+        var users = _repository.GetAllUser();
+
+        return Ok(users);
+    }
+
+    [HttpDelete("{UserId}")]
+    public IActionResult DeleteUser(int userId)
+    {
+        _repository.DeleteUser(userId);
+
+        return Ok(new { Message = "User deleted" });
     }
 }

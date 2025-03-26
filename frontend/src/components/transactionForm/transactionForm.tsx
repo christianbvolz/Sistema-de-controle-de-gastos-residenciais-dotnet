@@ -16,7 +16,7 @@ type formProps = {
 function TransactionForm({ handleModal }: formProps) {
   const { userList, refreshTransactions, refreshUsers } = useContext(Context);
 
-  const [userId, setUserId] = useState(userList[0].id);
+  const [userId, setUserId] = useState(userList[0].userId);
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState<"despesa" | "receita">("despesa");
@@ -80,7 +80,7 @@ function TransactionForm({ handleModal }: formProps) {
             }
           >
             {userList.map((user) => (
-              <option value={user.id} key={user.id}>
+              <option value={user.userId} key={user.userId}>
                 {user.name}
               </option>
             ))}

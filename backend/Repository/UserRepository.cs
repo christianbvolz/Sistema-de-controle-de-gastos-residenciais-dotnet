@@ -1,38 +1,74 @@
 namespace backend.Repository
 {
-
-  using Microsoft.EntityFrameworkCore;
+  using backend.Dto;
   using backend.Models;
+  using Microsoft.EntityFrameworkCore;
 
-  public class UserRepository(DataBaseContext context)
-    {
+  public class UserRepository(DataBaseContext context) : IUserRepository
+  {
     private readonly DataBaseContext _context = context;
 
-        public User Add(User user)
+    public UserDto AddUser(User user)
     {
       _context.Add(user);
       _context.SaveChanges();
-      return user;
+
+      return _context.Users.Where(u => u.UserId == user.UserId)
+       .Select(u => new UserDto { UserId = u.UserId, Name = u.Name, Age = u.Age })
+       .First();
     }
 
-    public List<User>? GetUsers()
+    public UserDto? GetUser(int userId)
     {
-      var query = _context.Users.ToList();
-
-      return query;
+      return _context.Users
+        .Include(u => u.Transactions)
+        .Where(u => u.UserId == userId)
+        .Select(u => new UserDto
+        {
+          UserId = u.UserId,
+          Name = u.Name,
+          Age = u.Age,
+          Transactions = u.Transactions == null ?
+              new List<TransactionDto>()
+              : u.Transactions.Select(t => new TransactionDto
+              {
+                TransactionId = t.TransactionId,
+                Description = t.Description,
+                Type = t.Type,
+                Value = t.Value,
+              }).ToList()
+        }).FirstOrDefault();
     }
 
-    public User GetById(int id)
+    public List<UserDto> GetAllUser()
     {
-      return _context.Users.Where(e => e.UserId == id).Include(e => e.Transactions).First();
+      return [.. _context.Users.Include(u => u.Transactions)
+      .Select(u => new UserDto
+        {
+          UserId = u.UserId,
+          Name = u.Name,
+          Age = u.Age,
+          Transactions = u.Transactions == null ?
+              new List<TransactionDto>()
+              : u.Transactions.Select(t => new TransactionDto
+              {
+                TransactionId = t.TransactionId,
+                Description = t.Description,
+                Type = t.Type,
+                Value = t.Value,
+              }).ToList()
+        })];
+
     }
 
-    public virtual void DeleteUser(int id)
+    public void DeleteUser(int userId)
     {
-      var User = _context.Users.Include(e => e.Transactions).Single(p => p.UserId == id);
-      _context.Remove(User);
-
-      _context.SaveChanges();
+      var user = _context.Users.Find(userId);
+      if (user != null)
+      {
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+      }
     }
   }
 }

@@ -1,14 +1,12 @@
 type User = {
-  id: number;
+  userId: number;
   name: string;
   age: number;
-  createdAt: Date;
-  updatedAt: Date | null;
   transactions: Transaction[];
 }
 
 type UserList = {
-  id: number;
+  userId: number;
   name: string;
   age: number;
   receita: number;
@@ -17,13 +15,11 @@ type UserList = {
 }
 
 type Transaction = {
-  id: number;
+  transactionId: number;
   description: string;
   value: number;
   type: 'despesa' | 'receita';
   userId: number;
-  createdAt: Date;
-  updatedAt: Date | null;
   user: User;
 }
 

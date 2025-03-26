@@ -15,7 +15,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
   const fetchUsers = async () => {
     const allUsers = await listAllUsers();
     
-          const allUsersMap = allUsers.map(({ id, name, age, transactions }) => {
+          const allUsersMap = allUsers.map(({ userId, name, age, transactions }) => {
             let receita = 0;
             let despesa = 0;
     
@@ -35,7 +35,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
             const total = toFloat(receita - despesa);
     
             // Return user data with total.
-            return { id, name, age, receita, despesa, total };
+            return { userId, name, age, receita, despesa, total };
           });
     
           setUserList(allUsersMap);

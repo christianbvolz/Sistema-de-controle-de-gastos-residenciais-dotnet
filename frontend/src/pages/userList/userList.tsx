@@ -32,8 +32,8 @@ function UserListPage() {
           <tbody>
             {/* Map through userList and render each user's data */}
             {userList.map(
-              ({ id, name, age, receita, despesa, total }) => (
-                <tr key={id}>
+              ({ userId, name, age, receita, despesa, total }) => (
+                <tr key={userId}>
                   <td>{name}</td>
                   <td>{age}</td>
                   <td>{receita}</td>
@@ -44,7 +44,7 @@ function UserListPage() {
                       className="delete-btn"
                       onClick={async () => {
                         // Call deleteUser API and reload the page
-                        await deleteUser(id);
+                        await deleteUser(userId);
                         
                         await refreshUsers();
                         await refreshTransactions();

@@ -11,7 +11,7 @@ using backend.Repository;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250325172632_CreateDb")]
+    [Migration("20250326104250_CreateDb")]
     partial class CreateDb
     {
         /// <inheritdoc />
@@ -66,8 +66,8 @@ namespace backend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("UserId");
 

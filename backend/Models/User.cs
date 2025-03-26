@@ -8,8 +8,8 @@ namespace backend.Models
     public int UserId { get; set; }
 
     [Required]
-    [StringLength(10, MinimumLength = 4)]
-    public string? Name { get; set; }
+    [StringLength(20, MinimumLength = 4)]
+    public required string Name { get; set; }
 
     [Required]
     [Range(1, 120)]
